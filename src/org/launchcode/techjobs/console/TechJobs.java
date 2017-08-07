@@ -111,6 +111,17 @@ public class TechJobs {
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
 
+        // Capitalization in search terms is significant -- fix that!
+        System.out.println("Made it here.");
+        // call each job object from someJobs arraylist -- each has key:value setup
+        for(HashMap job : someJobs){
+            // now print both key and value
+            for( Object key :  job.keySet()){
+                System.out.println(key + ":" + job.get(key));
+            }
+            System.out.println("---***---***---");
+        }
+
         System.out.println("printJobs is not implemented yet");
     }
 }
