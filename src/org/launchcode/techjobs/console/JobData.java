@@ -1,5 +1,6 @@
 package org.launchcode.techjobs.console;
 
+import com.oracle.webservices.internal.api.message.BasePropertySet;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -10,6 +11,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by LaunchCode
@@ -54,6 +56,27 @@ public class JobData {
         return allJobs;
     }
 
+    // Searches all columns for search term and returns results without duplicates
+    public static ArrayList<HashMap<String,String>> findByValue(String value){
+        // load data if not already loaded
+        loadData();
+
+        ArrayList<HashMap<String,String>> jobs = new ArrayList<>();
+        value=value.toLowerCase();
+        for(HashMap<String,String> row : allJobs){
+            // will cycle through each job object in allJobs array
+            for(String column : row.keySet()){
+                // will cycle through each column of job object
+                String aValue = row.get(column);
+                aValue= aValue.toLowerCase();
+                if(aValue.contains(value)) {
+                    jobs.add(row);
+                    break;
+                }
+            }
+        }
+        return jobs;
+    }
     /**
      * Returns results of search the jobs data by key/value, using
      * inclusion of the search term.
@@ -71,11 +94,11 @@ public class JobData {
         loadData();
 
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
-
+        value=value.toLowerCase();
         for (HashMap<String, String> row : allJobs) {
 
             String aValue = row.get(column);
-
+            aValue=aValue.toLowerCase();
             if (aValue.contains(value)) {
                 jobs.add(row);
             }
@@ -112,10 +135,8 @@ public class JobData {
                 for (String headerLabel : headers) {
                     newJob.put(headerLabel, record.get(headerLabel));
                 }
-
                 allJobs.add(newJob);
             }
-
             // flag the data as loaded, so we don't do it twice
             isDataLoaded = true;
 

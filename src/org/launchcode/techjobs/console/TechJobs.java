@@ -61,7 +61,8 @@ public class TechJobs {
                 String searchTerm = in.nextLine();
 
                 if (searchField.equals("all")) {
-                    System.out.println("Search all fields not yet implemented.");
+//                    System.out.println("Search all fields not yet implemented.");
+                    printJobs(JobData.findByValue(searchTerm));
                 } else {
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
                 }
@@ -112,16 +113,20 @@ public class TechJobs {
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
 
         // Capitalization in search terms is significant -- fix that!
-        System.out.println("Made it here.");
-        // call each job object from someJobs arraylist -- each has key:value setup
-        for(HashMap job : someJobs){
-            // now print both key and value
-            for( Object key :  job.keySet()){
-                System.out.println(key + ":" + job.get(key));
-            }
-            System.out.println("---***---***---");
+        if(someJobs.isEmpty()){
+            System.out.println("No results found.");
         }
-
-        System.out.println("printJobs is not implemented yet");
+        else{
+            // call each job object from someJobs arraylist -- each has key:value setup
+            for(HashMap job : someJobs){
+                System.out.println("*****");
+                // now print both key and value
+                for( Object key :  job.keySet()){
+                    System.out.println(key + ": " + job.get(key));
+                }
+                System.out.println("*****");
+                System.out.println();
+            }
+        }
     }
 }
